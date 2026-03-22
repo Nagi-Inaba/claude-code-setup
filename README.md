@@ -7,7 +7,7 @@ Built on [Everything Claude Code (ECC)](https://github.com/anthropics/everything
 ## Quick Start
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/claude-code-setup.git
+git clone https://github.com/Nagi-Inaba/claude-code-setup.git
 cd claude-code-setup
 ./install.sh
 ```
@@ -197,6 +197,53 @@ This removes agents, commands, skills, rules, scripts, hooks, and docs. Your `se
 - [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code)
 - Node.js (for hook scripts)
 - Git
+
+## Credits & Sources
+
+This repository is built on top of the following open-source projects and resources:
+
+### Core Framework
+
+| Project | Author | Description |
+|---------|--------|-------------|
+| [Everything Claude Code (ECC)](https://github.com/anthropics/everything-claude-code) | [affaan-m](https://github.com/affaan-m) | Base framework for agents, commands, skills, rules, and hooks |
+
+### Plugins & Marketplaces
+
+| Plugin | Repository | Description |
+|--------|-----------|-------------|
+| Knowledge Work Plugins | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins) | Anthropic official: sales, engineering, design, operations, etc. |
+| Claude Plugins Official | [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) | Anthropic official: code-review, plugin-dev, skill-creator, LSPs, etc. |
+| Financial Services Plugins | [anthropics/financial-services-plugins](https://github.com/anthropics/financial-services-plugins) | Anthropic official: equity research, financial analysis, investment banking |
+| cc-company | [Shin-sibainu/cc-company](https://github.com/Shin-sibainu/cc-company) | Virtual company organization plugin |
+| cc-secretary | [Shin-sibainu/cc-secretary](https://github.com/Shin-sibainu/cc-secretary) | Personal secretary & life/work management |
+| arscontexta | [agenticnotetaking/arscontexta](https://github.com/agenticnotetaking/arscontexta) | Skill Graphs: wikilinks-connected skill network |
+
+### Individual Skills
+
+| Skill | Author / Source | Description |
+|-------|----------------|-------------|
+| `prd`, `ralph` | [snarktank/ralph](https://github.com/snarktank/ralph) | PRD generation & task decomposition |
+| `company` | [Shin-sibainu/cc-company](https://github.com/Shin-sibainu/cc-company) | Virtual company organization |
+| `secretary` | [Shin-sibainu/cc-secretary](https://github.com/Shin-sibainu/cc-secretary) (author: nyosegawa) | Personal secretary system |
+| `vercel-react-best-practices` | [Vercel Engineering](https://github.com/vercel) | React/Next.js performance patterns |
+| `vercel-composition-patterns` | [Vercel Engineering](https://github.com/vercel) | React composition & compound components |
+| `vercel-react-native-skills` | [Vercel Engineering](https://github.com/vercel) | React Native performance patterns |
+| `vercel-deploy-claimable` | [Vercel Engineering](https://github.com/vercel) | Vercel deployment workflows |
+| `ui-ux-pro-max` | Community contribution | 67 UI styles, 96 palettes, 57 font pairings |
+| `vibe-design` | Sota Mikami | UI prototyping workflow |
+| `continuous-learning-v2` | ECC | Instinct-based learning system |
+
+### Product Starter (DDD Tools)
+
+| Skill | Repository | Description |
+|-------|-----------|-------------|
+| `ps-add-feature`, `ps-add-page`, `ps-db-table`, `ps-add-api-integration`, `ps-design-ui`, `ps-fix-error` | [jujunjun110/product-starter](https://github.com/jujunjun110/product-starter) | DDD 4-layer architecture tools for Next.js + Prisma + Supabase |
+
+### Other Tools Referenced
+
+- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) by Anthropic
+- [gstack](https://github.com/garrytan/gstack) by Garry Tan - Framework merged into code-reviewer, planner, build-error-resolver agents
 
 ## License
 
