@@ -88,4 +88,149 @@ For detailed index patterns, schema design examples, connection management, conc
 
 **Remember**: Database issues are often the root cause of application performance problems. Optimize queries and schema design early. Use EXPLAIN ANALYZE to verify assumptions. Always index foreign keys and RLS policy columns.
 
+## Migration Safety Checklist
+
+Before approving any migration:
+
+```markdown
+- [ ] Migration is reversible (has corresponding DOWN migration)
+- [ ] No data loss (columns dropped only after data migrated)
+- [ ] Large table operations use concurrent index creation
+- [ ] RLS policies updated for new tables/columns
+- [ ] Foreign key indexes created
+- [ ] Default values set for new NOT NULL columns
+- [ ] Migration tested against production-size data
+```
+
+**Dangerous Migration Patterns:**
+```sql
+-- BAD: Locks entire table during index creation
+CREATE INDEX idx_users_email ON users(email);
+
+-- GOOD: Non-blocking on large tables
+CREATE INDEX CONCURRENTLY idx_users_email ON users(email);
+
+-- BAD: Adding NOT NULL without default (locks + fails on existing data)
+ALTER TABLE users ADD COLUMN status text NOT NULL;
+
+-- GOOD: Add with default, then remove default if needed
+ALTER TABLE users ADD COLUMN status text NOT NULL DEFAULT 'active';
+```
+
+## Query Optimization Patterns
+
+### EXPLAIN ANALYZE Reading Guide
+```sql
+-- Always run EXPLAIN (ANALYZE, BUFFERS, FORMAT TEXT) on complex queries
+EXPLAIN (ANALYZE, BUFFERS) SELECT ...;
+```
+
+**Red flags in EXPLAIN output:**
+- `Seq Scan` on tables >10K rows → add index
+- `Nested Loop` with high row count → consider Hash Join (add index or rewrite)
+- `Sort` with high memory → add index matching ORDER BY
+- `Rows Removed by Filter` >> `Rows` → index not selective enough
+
+### Pagination Pattern
+```sql
+-- BAD: OFFSET pagination (gets slower as offset increases)
+SELECT * FROM posts ORDER BY id LIMIT 20 OFFSET 10000;
+
+-- GOOD: Cursor pagination (constant performance)
+SELECT * FROM posts WHERE id > $last_id ORDER BY id LIMIT 20;
+```
+
+## Partitioning Strategy
+
+| Strategy | When to Use | Example |
+|----------|------------|---------|
+| Range (by date) | Time-series data, logs | `PARTITION BY RANGE (created_at)` |
+| List (by status) | Known categories | `PARTITION BY LIST (status)` |
+| Hash (by ID) | Even distribution | `PARTITION BY HASH (user_id)` |
+
+```sql
+-- Range partition for time-series
+CREATE TABLE events (
+    id bigint GENERATED ALWAYS AS IDENTITY,
+    created_at timestamptz NOT NULL,
+    data jsonb
+) PARTITION BY RANGE (created_at);
+
+CREATE TABLE events_2026_q1 PARTITION OF events
+    FOR VALUES FROM ('2026-01-01') TO ('2026-04-01');
+```
+
+## CTE and Window Function Review
+
+```sql
+-- CTEs: readable but check performance
+WITH active_users AS (
+    SELECT user_id, count(*) as order_count
+    FROM orders
+    WHERE created_at > now() - interval '30 days'
+    GROUP BY user_id
+)
+SELECT u.name, au.order_count
+FROM users u
+JOIN active_users au ON u.id = au.user_id;
+
+-- Window functions: avoid unnecessary sorts
+SELECT
+    name,
+    department,
+    salary,
+    rank() OVER (PARTITION BY department ORDER BY salary DESC) as dept_rank
+FROM employees;
+```
+
+**Review flags:**
+- CTE used only once → inline it (PostgreSQL materializes CTEs before v12)
+- Window function with large PARTITION → ensure covering index
+- Recursive CTE → check termination condition
+
+## Connection Pooling
+
+| Setting | Recommended | Why |
+|---------|-------------|-----|
+| Pool size | `max(cpu_cores * 2, 10)` | Avoid overwhelming PostgreSQL |
+| Idle timeout | 30s | Release unused connections |
+| Connection timeout | 5s | Fail fast on pool exhaustion |
+| Statement timeout | 30s | Prevent runaway queries |
+
+```sql
+-- Check current connections
+SELECT count(*) FROM pg_stat_activity;
+SELECT max_conn FROM pg_settings WHERE name = 'max_connections';
+```
+
+## Vacuum and Statistics Tuning
+
+```sql
+-- Check tables needing vacuum
+SELECT schemaname, relname, n_dead_tup, last_autovacuum
+FROM pg_stat_user_tables
+ORDER BY n_dead_tup DESC LIMIT 10;
+
+-- Update statistics for query planner
+ANALYZE <table_name>;
+```
+
+## Cross-Agent Handoffs
+
+- **FROM architect**: Receives schema design requirements
+- **FROM code-reviewer**: Receives SQL/migration code for specialized review
+- **TO security-reviewer**: If RLS or access control issues detected
+- **TO build-error-resolver**: If migration fails to apply
+
+## Failure Modes
+
+| Problem | Detection | Recovery |
+|---------|-----------|---------|
+| Missing index on FK | `EXPLAIN ANALYZE` shows Seq Scan | `CREATE INDEX CONCURRENTLY` |
+| N+1 queries | Multiple sequential `SELECT` in logs | Rewrite with JOIN or batch |
+| Lock contention | Queries timing out | Reduce transaction scope, add `SKIP LOCKED` |
+| RLS bypass | Direct table access without policy check | Add policy + test with role |
+| Connection pool exhaustion | Queries timing out, `too many connections` | Increase pool size or reduce idle timeout |
+| Stale statistics | Query planner chooses wrong plan | Run `ANALYZE` on affected tables |
+
 *Patterns adapted from Supabase Agent Skills (credit: Supabase team) under MIT license.*

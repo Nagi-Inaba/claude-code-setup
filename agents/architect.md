@@ -208,4 +208,59 @@ Example architecture for an AI-powered SaaS platform:
 - **1M users**: Microservices architecture, separate read/write databases
 - **10M users**: Event-driven architecture, distributed caching, multi-region
 
+## Architecture Decision Tree
+
+When making architectural choices, follow this decision flow:
+
+```
+New feature request
+  → Does it fit existing architecture?
+    YES → Extend existing patterns (no new abstractions)
+    NO → Is it a one-off or repeating need?
+      ONE-OFF → Simple inline solution (avoid new patterns)
+      REPEATING → Design new pattern with ADR
+        → Does it affect other teams/services?
+          YES → RFC + architect review before implementation
+          NO → ADR + planner review sufficient
+```
+
+**Technology Selection:**
+```
+Need persistent storage?
+  Relational data → PostgreSQL (Supabase/Neon)
+  Key-value/cache → Redis (Upstash)
+  Document/flexible → PostgreSQL JSONB (avoid MongoDB unless specific need)
+  Vector search → pgvector or Redis Stack
+  File storage → S3/R2/Supabase Storage
+
+Need real-time?
+  Database changes → Supabase Realtime
+  Chat/messaging → WebSocket (Socket.io or native)
+  Notifications → Server-Sent Events (simpler than WebSocket)
+
+Need background processing?
+  Simple delayed tasks → Upstash QStash
+  Complex workflows → Temporal or Inngest
+  Cron jobs → Vercel Cron or QStash scheduled
+```
+
+## Cross-Agent Handoffs
+
+- **FROM planner**: Receives implementation plan for architectural validation
+- **TO planner**: Returns approved architecture with constraints for detailed planning
+- **TO database-reviewer**: When schema design needs PostgreSQL-specific review
+- **TO security-reviewer**: When architecture affects trust boundaries
+- **TO code-reviewer**: After implementation, verify architecture was followed
+- **Complement**: architect designs the system; planner breaks it into deliverable steps
+
+## Failure Modes
+
+| Architectural Risk | Detection | Mitigation |
+|-------------------|-----------|-----------|
+| Over-engineering | >3 abstractions for simple feature | Apply YAGNI — remove until it hurts |
+| Under-engineering | Performance issues at low scale | Add monitoring early, profile before optimizing |
+| Wrong technology choice | High impedance mismatch, fighting the tool | ADR with 3+ alternatives evaluated |
+| Tight coupling | Changes ripple across 5+ files | Interface boundaries, dependency injection |
+| Missing scalability path | Architecture diagram shows single-threaded bottleneck | Design for 10x current load minimum |
+
 **Remember**: Good architecture enables rapid development, easy maintenance, and confident scaling. The best architecture is simple, clear, and follows established patterns.

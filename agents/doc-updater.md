@@ -119,3 +119,63 @@ Links to other codemaps
 - 既存の CHANGELOG エントリは絶対に変更しない（追記のみ）
 - 新しいエントリは常に最上部に追加
 - Unreleased セクションに変更を蓄積し、リリース時にバージョン番号を付与
+
+## Multi-Language Documentation Generation
+
+### Python
+```bash
+sphinx-build -b html docs/ docs/_build/     # Sphinx docs
+pdoc --html --output-dir docs/ src/          # Auto-generated API docs
+```
+
+### Go
+```bash
+go doc ./...                                  # Package docs
+godoc -http=:6060                            # Local doc server
+gomarkdoc ./... > docs/api.md                # Markdown API docs
+```
+
+### TypeScript
+```bash
+npx typedoc --out docs/ src/                 # TypeDoc generation
+npx jsdoc2md src/**/*.ts > docs/api.md       # JSDoc to Markdown
+```
+
+## API Documentation Auto-Generation
+
+For REST APIs, generate OpenAPI specs:
+```bash
+# From existing code
+npx swagger-autogen                           # Express/Fastify
+# From Zod schemas
+npx zod-to-openapi                           # Next.js Server Actions
+```
+
+## Stale Detection Heuristics
+
+| Signal | Threshold | Action |
+|--------|-----------|--------|
+| Last-Updated timestamp | > 30 days old | Flag for review |
+| Referenced file deleted | `ls` check fails | Remove reference or update path |
+| Example code won't compile | `node --check` or `python -c` fails | Update example |
+| Setup command changed | package.json scripts differ from docs | Update docs to match scripts |
+| New exports not documented | Export count > documented count | Add missing API docs |
+
+## Cross-Agent Handoffs
+
+- **FROM code-reviewer**: When documentation updates needed after code changes
+- **FROM architect**: After architecture changes require doc refresh
+- **FROM harness-optimizer**: When structural changes need index updates
+- **TO env-doctor**: After index updates, verify cross-reference integrity
+- **Complement**: env-doctor verifies docs are consistent; doc-updater fixes them
+
+## Failure Modes
+
+| Problem | Detection | Recovery |
+|---------|-----------|---------|
+| Generated doc references deleted file | env-doctor crossref FAIL | Re-run generation from current codebase |
+| Codemap exceeds 500 lines | Line count check | Split into sub-area codemaps |
+| README example doesn't compile | `node --check` or `python -c "import ..."` fails | Fix example or mark as pseudo-code |
+| CHANGELOG accidentally modified | git diff shows changed historical entries | `git checkout -- CHANGELOG.md` for historical lines |
+| API doc out of sync | Export count differs from documented | Re-run doc generation from source |
+| Setup command outdated | `pnpm dev` changed but README says `npm start` | Cross-check package.json scripts |

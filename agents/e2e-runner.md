@@ -123,6 +123,109 @@ E2E テストでバグを発見した場合:
 - 実行時間 (weight: 10%, 短いほど良い)
 - 総合スコア 0-100 で報告
 
+## Playwright Configuration Template
+
+```typescript
+// playwright.config.ts
+import { defineConfig, devices } from '@playwright/test'
+
+export default defineConfig({
+  testDir: './tests/e2e',
+  timeout: 30000,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: [['html'], ['junit', { outputFile: 'test-results/junit.xml' }]],
+  use: {
+    baseURL: 'http://localhost:3000',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+  },
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    { name: 'mobile', use: { ...devices['iPhone 14'] } },
+  ],
+  webServer: {
+    command: 'pnpm dev',
+    port: 3000,
+    reuseExistingServer: !process.env.CI,
+  },
+})
+```
+
+## CI/CD Integration (GitHub Actions)
+
+```yaml
+e2e:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+    - run: pnpm install --frozen-lockfile
+    - run: npx playwright install --with-deps chromium
+    - run: pnpm exec playwright test
+    - uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: playwright-report
+        path: playwright-report/
+```
+
+## Accessibility Testing
+
+```typescript
+// Include accessibility checks in E2E tests
+import AxeBuilder from '@axe-core/playwright'
+
+test('page has no accessibility violations', async ({ page }) => {
+  await page.goto('/dashboard')
+  const results = await new AxeBuilder({ page }).analyze()
+  expect(results.violations).toEqual([])
+})
+```
+
+## Authentication Flow Testing
+
+```typescript
+// Reusable auth setup
+async function loginAs(page: Page, role: 'admin' | 'user') {
+  await page.goto('/login')
+  await page.fill('[data-testid="email"]', `${role}@test.com`)
+  await page.fill('[data-testid="password"]', 'testpass123')
+  await page.click('[data-testid="login-button"]')
+  await page.waitForURL('/dashboard')
+}
+
+// Storage state for reuse across tests
+test.describe('admin features', () => {
+  test.use({ storageState: '.auth/admin.json' })
+  test('can access admin panel', async ({ page }) => {
+    await page.goto('/admin')
+    await expect(page.locator('h1')).toContainText('Admin')
+  })
+})
+```
+
 ---
+
+## Cross-Agent Handoffs
+
+- **FROM tdd-guide**: Receives E2E test requests for critical user flows
+- **FROM code-reviewer**: Receives suggestions for E2E coverage of reviewed features
+- **TO build-error-resolver**: If Playwright/test runner setup fails
+- **TO code-reviewer**: After test creation, for test code quality review
+- **TO loop-operator**: If running E2E tests in autonomous loop mode
+
+## Failure Modes
+
+| Problem | Detection | Recovery |
+|---------|-----------|---------|
+| Flaky test | Fails intermittently across 10 runs | Quarantine with `test.fixme()`, investigate root cause |
+| Selector broken | Element not found error | Update to `data-testid`, avoid CSS class selectors |
+| Timeout exceeded | Test hangs >30s | Add explicit `waitFor` conditions, check network |
+| Auth state leaked | Tests pass individually, fail in suite | Ensure fresh browser context per test |
+| CI-only failure | Passes locally, fails in CI | Check viewport size, fonts, network conditions |
+| Accessibility violation | axe-core audit fails | Fix ARIA labels, contrast, keyboard nav |
+| Auth state stale | Login tests fail intermittently | Regenerate storage state before suite |
 
 **Remember**: E2E tests are your last line of defense before production. They catch integration issues that unit tests miss. Invest in stability, speed, and coverage.

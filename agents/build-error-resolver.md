@@ -126,3 +126,70 @@ npx eslint . --fix
 3. 完全に異なるアプローチで再挑戦
 - 例: 型アノテーション追加を3回試して失敗 → 型定義自体が間違っている可能性を検討
 - 例: 依存パッケージのバージョン固定を3回試して失敗 → 依存関係のツリー構造自体を見直す
+
+## Multi-Language Support
+
+| Language | Build Command | Type Check | Common Issues |
+|----------|-------------|-----------|---------------|
+| TypeScript | `npm run build` / `npx tsc --noEmit` | `npx tsc --noEmit --pretty` | Type errors, module resolution, config |
+| Python | `python -m py_compile <file>` | `mypy .` | Import errors, type mismatches, missing deps |
+| Go | `go build ./...` | `go vet ./...` | Import cycles, interface mismatches, module deps |
+| Kotlin | `./gradlew build` | `./gradlew detekt` | Gradle config, dependency conflicts, Kotlin compiler |
+
+## Framework-Specific Patterns
+
+### Next.js App Router
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `'use client' must be at top` | Client directive not first line | Move `'use client'` to line 1, before imports |
+| `useSearchParams() should be wrapped in Suspense` | Missing Suspense boundary | Wrap component using `useSearchParams` in `<Suspense>` |
+| `Dynamic server usage` | Static page calling dynamic function | Add `export const dynamic = 'force-dynamic'` or restructure |
+| `Hydration failed` | Server/client render mismatch | Check conditional rendering, browser-only APIs |
+
+### Vite / Turbopack
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `Cannot use import statement outside a module` | CJS/ESM mismatch | Add `"type": "module"` to package.json or rename to `.mjs` |
+| `process is not defined` | Browser env missing Node globals | Use `import.meta.env` instead of `process.env` |
+| `Pre-transform error` | Plugin incompatibility | Check Vite plugin versions, clear `.vite` cache |
+
+### Monorepo Build Issues
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `Cannot find module` from workspace | Missing workspace dependency | Add `"dependency": "workspace:*"` in package.json |
+| `Conflicting peer dependencies` | Version mismatch across packages | Use `pnpm.overrides` or `resolutions` |
+| Build order wrong | Dependency built after consumer | Configure `turbo.json` pipeline dependencies |
+
+## ESM/CJS Compatibility
+
+```bash
+# Diagnose module type issues
+node --input-type=module -e "import 'package'"    # Test ESM import
+node -e "require('package')"                       # Test CJS require
+```
+
+| Signal | Diagnosis | Fix |
+|--------|-----------|-----|
+| `ERR_REQUIRE_ESM` | CJS code requiring ESM package | Use dynamic `import()` or find CJS alternative |
+| `ReferenceError: exports is not defined` | ESM file treated as CJS | Add `"type": "module"` or rename to `.mjs` |
+| `__dirname is not defined` | ESM doesn't have `__dirname` | Use `import.meta.dirname` (Node 21+) or `fileURLToPath` |
+
+## Cross-Agent Handoffs
+
+- **FROM code-reviewer**: Build failures discovered during review
+- **FROM tdd-guide**: Test framework configuration errors
+- **FROM e2e-runner**: Playwright/test runner build failures
+- **TO code-reviewer**: After build fix, for quality review of changes
+- **TO security-reviewer**: If fix involves dependency version changes
+- **Escalate to architect**: If build error reveals fundamental architecture issue
+
+## Failure Modes
+
+| Problem | Detection | Recovery |
+|---------|-----------|---------|
+| Fix introduces new error | `tsc --noEmit` shows different error | Apply Iron Law — dig to root cause |
+| Circular dependency | Module resolution fails | Extract shared types to separate module |
+| Version conflict | `npm ls <package>` shows multiple versions | Use `overrides` / `resolutions` field |
+| 3 failed attempts | Same approach tried 3x | Apply 3-Strike Rule — completely new approach |
+| ESM/CJS mismatch | `ERR_REQUIRE_ESM` or `exports is not defined` | Check package.json `"type"`, rename extensions |
+| Monorepo build order | Consumer builds before dependency | Configure pipeline dependencies in turbo.json |

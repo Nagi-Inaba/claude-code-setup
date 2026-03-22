@@ -57,6 +57,7 @@
 | /loop-start | ループ操作 | 自律ループパターンの開始（安全デフォルト付き） | — |
 | /loop-status | ループ操作 | アクティブループの状態・進捗・失敗シグナルの確認 | — |
 | /aside | ユーティリティ | 作業中断なしでサイドクエスチョンに即答 | — |
+| /wrap-up | セッション管理 | セッション終了ルーティン一括実行（レビュー→記録→学習→保存） | — |
 | /setup-pm | ユーティリティ | パッケージマネージャの設定（npm/pnpm/yarn/bun） | — |
 | /pm2 | ユーティリティ | PM2サービスコマンドの自動生成 | — |
 | /claw | ユーティリティ | NanoClaw v2 対話型AIエージェントREPL起動 | — |
@@ -205,6 +206,12 @@
 #### /sessions [list|load|alias|info]
 - **用途**: セッション履歴の一覧表示、読込、エイリアス管理、スワーム向けオペレーターコンテキスト取得
 
+#### /wrap-up [--full]
+- **用途**: セッション終了時の学習・記録を最適順序で一括実行。Phase 2（記録）→ Phase 3（学習）→ Phase 4（保存）。`--full` で Phase 1（レビュー）も含む
+- **ステップ**: /code-review → /codex → /revise-claude-md → /claude-md-improver → /session-report → instinct抽出 → /evolve → /learn-eval → /save-session
+- **進捗トラッカー**: 各ステップに `[x]`/`[~]`/`[!]` マーク付き進捗チェックリストを表示
+- **使用タイミング**: セッション終了前、コンテキスト上限到達前
+
 #### /checkpoint [create|verify|list] [name]
 - **用途**: ワークフローチェックポイントの作成・検証。`/verify quick` 実行後にgitコミット/スタッシュを記録
 
@@ -346,6 +353,6 @@
 
 ## 関連リソース
 
-- **エージェント**: `~/.claude/agents/` — planner, architect, tdd-guide, code-reviewer, security-reviewer, env-doctor 等19種
+- **エージェント**: `~/.claude/agents/` — planner, architect, tdd-guide, code-reviewer, security-reviewer, env-doctor, frontend-engineer, backend-engineer 等24種
 - **スキル**: `~/.claude/skills/` — deep-research, env-doctor, security, coding-standards 等70種 + learned/ 10種
 - **ルール**: `~/.claude/rules/` — TypeScript, Python, Go, Kotlin, Swift, PHP 共通ルール

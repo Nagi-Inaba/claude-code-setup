@@ -256,6 +256,16 @@ if ! $SKIP_HOOKS; then
     fi
   fi
 
+  # Top-level scripts
+  for script_file in "$SCRIPT_DIR"/scripts/*.{js,sh,md}; do
+    [ -f "$script_file" ] || continue
+    if $DRY_RUN; then
+      info "[DRY-RUN] Would copy $(basename "$script_file")"
+    else
+      cp "$script_file" "$CLAUDE_DIR/scripts/"
+    fi
+  done
+
   log "Generating settings.json hooks..."
   generate_settings_hooks
 fi
@@ -301,11 +311,11 @@ log "Installation complete!"
 echo "============================================"
 echo ""
 info "What's installed:"
-info "  - 20 agents          (~/.claude/agents/)"
-info "  - 69+ commands       (~/.claude/commands/)"
-info "  - 70+ skills         (~/.claude/skills/)"
+info "  - 24 agents          (~/.claude/agents/)"
+info "  - 59 commands        (~/.claude/commands/)"
+info "  - 91 skills          (~/.claude/skills/)"
 info "  - 7 language rules   (~/.claude/rules/)"
-info "  - 35+ hook scripts   (~/.claude/scripts/hooks/)"
+info "  - 39 hook scripts    (~/.claude/scripts/hooks/)"
 info "  - Documentation      (~/.claude/docs/)"
 echo ""
 info "Next steps:"

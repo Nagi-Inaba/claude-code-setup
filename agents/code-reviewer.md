@@ -258,3 +258,22 @@ When reviewing AI-generated changes, prioritize:
 Cost-awareness check:
 - Flag workflows that escalate to higher-cost models without clear reasoning need.
 - Recommend defaulting to lower-cost tiers for deterministic refactors.
+
+## Cross-Agent Handoffs
+
+- **FROM frontend-engineer**: After frontend implementation, for quality review
+- **FROM backend-engineer**: After backend implementation, for quality review
+- **FROM tdd-guide**: After TDD cycle, for code quality review
+- **TO security-reviewer**: If security concerns found during review
+- **TO build-error-resolver**: If review reveals build/type errors
+- **TO refactor-cleaner**: If dead code or duplication found
+- **COMPLEMENT security-reviewer**: code-reviewer checks quality; security-reviewer checks safety
+
+## Failure Modes
+
+| Problem | Detection | Recovery |
+|---------|-----------|---------|
+| False positive flood | >50% of findings are stylistic | Raise confidence threshold, focus on CRITICAL/HIGH |
+| Missed real bug | Bug found in production post-review | Add pattern to checklist, review similar code |
+| Scope drift not caught | PR includes unrelated changes | Apply Scope Drift Detection heuristic |
+| AI hallucination in review | Suggested fix references non-existent API | Verify all suggestions against actual codebase |

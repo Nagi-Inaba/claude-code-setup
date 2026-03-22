@@ -1,6 +1,6 @@
 # Claude Code Setup
 
-A fully-configured Claude Code environment with 20 agents, 69+ commands, 70+ skills, 7 language rule sets, and 35+ automation hooks.
+A fully-configured Claude Code environment with 24 agents, 59 commands, 91 skills, 7 language rule sets, and 39 automation hooks.
 
 Built on [Everything Claude Code (ECC)](https://github.com/anthropics/everything-claude-code) v1.8.0 with extensive customization.
 
@@ -23,14 +23,22 @@ cd claude-code-setup
 
 ## What's Included
 
-### Agents (20)
+### Agents (24)
 
 Specialized AI agents for different development tasks:
 
 | Agent | Purpose |
 |-------|---------|
+| **Implementation** | |
+| `frontend-engineer` | Next.js App Router + React 19 + Tailwind CSS |
+| `backend-engineer` | DDD 4-layer + Next.js Server Actions + Prisma |
+| `infra-engineer` | Vercel + Supabase + GitHub Actions + Docker |
+| `mobile-engineer` | React Native/Expo + Swift/SwiftUI + Kotlin/Compose |
+| `ui-designer` | Design system, UI prototyping, accessibility |
+| **Planning & Architecture** | |
 | `planner` | Implementation planning for complex features |
 | `architect` | System design & architecture decisions |
+| **Quality & Review** | |
 | `code-reviewer` | Code review with quality gates |
 | `security-reviewer` | Security vulnerability detection |
 | `tdd-guide` | Test-driven development workflow |
@@ -38,16 +46,18 @@ Specialized AI agents for different development tasks:
 | `e2e-runner` | End-to-end testing |
 | `refactor-cleaner` | Dead code cleanup |
 | `doc-updater` | Documentation maintenance |
-| `env-doctor` | Environment health diagnostics |
+| **Language-Specific** | |
 | `go-reviewer` / `go-build-resolver` | Go-specific review & builds |
 | `kotlin-reviewer` / `kotlin-build-resolver` | Kotlin/Android review & builds |
 | `python-reviewer` | Python code review |
 | `database-reviewer` | Database schema & query review |
+| **Operations** | |
+| `env-doctor` | Environment health diagnostics |
 | `harness-optimizer` | Test harness optimization |
 | `loop-operator` | Agent loop orchestration |
 | `chief-of-staff` | Executive oversight |
 
-### Commands (69+)
+### Commands (59)
 
 Slash commands for common workflows:
 
@@ -64,7 +74,7 @@ Slash commands for common workflows:
 | **DDD (Product Starter)** | `/ps-init`, `/ps-plan`, `/ps-pr` |
 | **Learning** | `/learn`, `/instinct-status`, `/evolve`, `/promote` |
 
-### Skills (70+)
+### Skills (91)
 
 Deep knowledge modules for specific domains:
 
@@ -95,7 +105,7 @@ Coding standards and best practices:
 | **PHP** | PSR-12, type declarations, PHPUnit |
 | **Perl** | strict/warnings, taint mode, Test::More |
 
-### Hooks (35+ scripts)
+### Hooks (39 scripts)
 
 Automated quality gates and workflows:
 
@@ -112,9 +122,9 @@ Automated quality gates and workflows:
 
 ```
 ~/.claude/
-├── agents/           # 20 specialized agents
-├── commands/         # 69+ slash commands
-├── skills/           # 70+ knowledge modules
+├── agents/           # 24 specialized agents
+├── commands/         # 59 slash commands
+├── skills/           # 91 knowledge modules
 ├── rules/            # 7-language coding standards
 │   ├── common/       # Universal rules
 │   ├── typescript/
@@ -125,7 +135,7 @@ Automated quality gates and workflows:
 │   ├── php/
 │   └── perl/
 ├── scripts/
-│   ├── hooks/        # 35+ hook scripts
+│   ├── hooks/        # 39 hook scripts
 │   └── lib/          # Shared libraries
 ├── hooks/
 │   └── hooks.json    # Hook definitions (plugin format)

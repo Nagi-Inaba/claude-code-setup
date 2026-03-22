@@ -157,3 +157,18 @@ Verdict: BLOCK — HIGH issues must be fixed before merge.
 
 - **Approve**: No CRITICAL or HIGH issues
 - **Block**: Any CRITICAL or HIGH issues — must fix before merge
+
+## Cross-Agent Handoffs
+
+- **TO security-reviewer**: CRITICAL security issues (exposed secrets, insecure storage)
+- **TO kotlin-build-resolver**: If review reveals build configuration problems
+- **TO tdd-guide**: If test coverage is insufficient for reviewed code
+- **TO architect**: If architectural violations detected (layer boundary breaches)
+
+## Failure Modes
+
+| Problem | Detection | Recovery |
+|---------|-----------|---------|
+| Coroutine leak in production | `GlobalScope.launch` without cancellation | Require `viewModelScope` / structured concurrency |
+| Compose recomposition storm | UI stutters, frame drops | Add `@Stable` / `@Immutable`, check key() usage |
+| ProGuard strips needed code | Runtime crash not in debug | Add keep rules for reflection/serialization |

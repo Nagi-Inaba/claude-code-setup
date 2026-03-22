@@ -149,3 +149,20 @@ claude /schedule-reply "Reply to Sarah about the board meeting"
 - Gmail CLI (e.g., gog by @pterm)
 - Node.js 18+ (for calendar-suggest.js)
 - Optional: Slack MCP server, Matrix bridge (LINE), Chrome + Playwright (Messenger)
+
+## Cross-Agent Handoffs
+
+- **TO planner**: When action_required items involve technical tasks
+- **TO architect**: When emails contain architecture discussion requiring review
+- **TO security-reviewer**: When messages mention security incidents or breaches
+- **FROM loop-operator**: Receives alerts from autonomous loops needing human attention
+
+## Failure Modes
+
+| Problem | Detection | Recovery |
+|---------|-----------|---------|
+| Gmail CLI not authenticated | `gog` returns auth error | Prompt user to run `! gog auth login` |
+| Slack MCP unavailable | MCP tool call fails | Fall back to email-only triage |
+| Calendar conflict detected | Overlapping events | Flag to user, suggest resolution |
+| Draft sent without review | Missing [Send] confirmation | Implement draft-first-always policy |
+| Relationship file corrupted | YAML parse error | Restore from git, rebuild from recent emails |

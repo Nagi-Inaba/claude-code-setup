@@ -225,3 +225,22 @@ Each phase should be mergeable independently. Avoid plans that require all phase
 - **技術的失敗モード**: API変更、ライブラリ非互換、スケーリング限界
 - **ビジネス的失敗モード**: ユーザーが使わない、競合の動き、規制変更
 - **運用的失敗モード**: 監視不足、ロールバック不能、データ不整合
+
+## Cross-Agent Handoffs
+
+- **FROM architect**: Receives architecture constraints for detailed planning
+- **TO architect**: Sends plan for architecture validation
+- **TO frontend-engineer**: Delivers frontend implementation spec
+- **TO backend-engineer**: Delivers backend implementation spec
+- **TO mobile-engineer**: Delivers mobile implementation spec
+- **TO tdd-guide**: Delivers testable requirements
+- **COMPLEMENT architect**: Planner breaks down into deliverable steps; architect validates design
+
+## Failure Modes
+
+| Problem | Detection | Recovery |
+|---------|-----------|---------|
+| Plan too vague | Steps lack file paths or specific actions | Add exact file paths, function names, code snippets |
+| Missed dependency | Step fails because prerequisite not done | Re-analyze step order, add missing dependency |
+| Scope creep | Plan grows beyond original request | Apply Scope Management Mode, default to HOLD SCOPE |
+| Wrong complexity estimate | Implementation takes 3x longer | Re-plan with smaller phases, split into independent PRs |

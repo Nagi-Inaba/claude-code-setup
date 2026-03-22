@@ -115,4 +115,68 @@ Remaining errors: 2
 
 Final: `Build Status: SUCCESS/FAILED | Errors Fixed: N | Files Modified: list`
 
+## KMP Build Patterns
+
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `Unresolved reference in commonMain` | Missing expect/actual declaration | Add `expect` in commonMain, `actual` in platform source sets |
+| `Could not find ksp plugin` | KSP version mismatch with Kotlin | Align KSP version: `ksp-<kotlinVersion>-1.0.x` |
+| `Duplicate class found` | Same class in multiple source sets | Move to commonMain or use `expect/actual` |
+
+## Version Catalog Troubleshooting
+
+```bash
+# Verify catalog sync
+./gradlew --refresh-dependencies
+./gradlew dependencyInsight --dependency <name>
+```
+
+| Problem | Detection | Fix |
+|---------|-----------|-----|
+| Catalog version not applied | `gradle/libs.versions.toml` edited but not used | Use `libs.<alias>` in build.gradle.kts |
+| Version conflict between catalog and direct | Build warning about version override | Remove direct version, use only catalog |
+| TOML parse error | Gradle sync fails silently | Check TOML syntax, no trailing commas |
+
+## Compose Compiler Compatibility
+
+| Kotlin Version | Compose Compiler | Notes |
+|---------------|-----------------|-------|
+| 2.0.x | Kotlin compiler plugin (built-in) | No separate version needed |
+| 1.9.x | 1.5.x | Must match exactly |
+
+```kotlin
+// Check Compose compiler compatibility
+// build.gradle.kts
+composeOptions {
+    kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+}
+```
+
+## AGP Version Conflicts
+
+```bash
+# Check AGP compatibility
+./gradlew --version  # Shows Gradle version
+# AGP 8.x requires Gradle 8.x+
+# AGP 7.x requires Gradle 7.4+
+```
+
+## Cross-Agent Handoffs
+
+- **FROM kotlin-reviewer**: Build issues discovered during review
+- **FROM loop-operator**: Build failures during autonomous loops
+- **TO kotlin-reviewer**: After fix, for review of changes
+- **TO architect**: If error reveals fundamental Gradle/module structure issue
+
+## Failure Modes
+
+| Problem | Detection | Recovery |
+|---------|-----------|---------|
+| Gradle daemon corrupt | `Could not create service of type` | `./gradlew --stop && rm -rf .gradle/` |
+| Dependency resolution loop | Gradle hangs on `Resolving dependencies` | Check for circular version constraints |
+| Kotlin/Java version mismatch | `Unsupported class file major version` | Align `jvmTarget` in build.gradle.kts |
+| 3 failed attempts | Same error after 3 tries | Stop, re-analyze root cause |
+| KSP version mismatch | `Could not find ksp` during sync | Align KSP `<kotlinVersion>-1.0.x` |
+| Compose compiler crash | `Internal error in Compose compiler` | Update Compose compiler, check `@Stable` annotations |
+
 For detailed Kotlin patterns and code examples, see `skill: kotlin-patterns`.

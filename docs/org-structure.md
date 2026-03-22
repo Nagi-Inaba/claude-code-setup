@@ -1,31 +1,29 @@
 # Agent Organization Structure
 > エージェント間の階層・ハンドオフルール・エスカレーションパス。
 
-## 組織階層
+## 組織階層（5レイヤー・24エージェント）
 
 ```
-                       [Orchestrator]
-                      (Claude Code 本体)
-                            |
-           +----------------+----------------+
-           |                |                |
-    [Planning Layer]  [Execution Layer]  [Quality Layer]
-    planner            tdd-guide          code-reviewer
-    architect          build-error-       security-reviewer
-                         resolver         python-reviewer
-                       go-build-resolver  go-reviewer
-                       kotlin-build-      kotlin-reviewer
-                         resolver         database-reviewer
-                       refactor-cleaner   e2e-runner
-                       doc-updater
-           |
-    [Operations Layer]
-    loop-operator
-    harness-optimizer
-    chief-of-staff
-    env-doctor
+                          [Orchestrator]
+                         (Claude Code 本体)
+                               |
+    +----------+----------+----------+----------+----------+
+    |          |          |          |          |          |
+ [Planning] [Design] [Implement] [Quality]  [Operations]
+ planner    ui-       frontend-   code-rev   loop-operator
+ architect  designer  engineer    sec-rev    harness-opt
+                      backend-    py-rev     chief-of-staff
+                      engineer    go-rev     env-doctor
+                      infra-      kt-rev
+                      engineer    db-rev
+                      mobile-     e2e-runner
+                      engineer    build-err-res
+                      tdd-guide   go-build-res
+                      refact-     kt-build-res
+                      cleaner
+                      doc-updater
 ```
-> 全19エージェント。詳細は `agents-index.md` 参照。
+> 全24エージェント。詳細は `agents-index.md` 参照。
 
 ---
 
@@ -33,15 +31,27 @@
 
 ### 新機能実装（HIGH/EPIC）
 ```
-planner
-  └─ 実装計画作成・承認待ち
-  └─ tdd-guide
-       └─ テスト作成（RED）→ 実装（GREEN）→ リファクタ
-       └─ code-reviewer（並列）
-            └─ security-reviewer（並列）
-                 └─ 変更ディレクトリの CLAUDE.md 更新
-                      └─ claude-md-improver で評価・改善
-                           └─ 完了
+planner → architect（設計判断）
+  → ui-designer（UIプロトタイプ・コンポーネント仕様）
+  → backend-engineer + frontend-engineer（並列実装）
+       backend: domain → application → infrastructure → presentation
+       frontend: components → pages → routing → styling
+  → infra-engineer（デプロイ設定・CI/CD・必要に応じて）
+  → tdd-guide（テスト作成・カバレッジ確認）
+  → code-reviewer + security-reviewer（並列品質ゲート）
+  → e2e-runner（E2Eテスト）
+  → CLAUDE.md 更新 → claude-md-improver
+  → 完了
+```
+
+### モバイルアプリ機能追加
+```
+planner → architect（設計判断）
+  → ui-designer（モバイルUI仕様）
+  → mobile-engineer（RN/Swift/Kotlin 実装）
+  → kotlin-reviewer / code-reviewer（プラットフォーム別レビュー）
+  → security-reviewer（アプリセキュリティ）
+  → 完了
 ```
 
 ### バグ修正
@@ -49,8 +59,7 @@ planner
 tdd-guide
   └─ 再現テスト作成 → 修正 → パス確認
   └─ code-reviewer
-       └─ 変更ディレクトリの CLAUDE.md 更新 → claude-md-improver
-            └─ 完了
+       └─ CLAUDE.md 更新 → claude-md-improver → 完了
 ```
 
 ### ビルドエラー回復
@@ -67,10 +76,7 @@ tdd-guide
 ```
 CLAUDE.md 編集
   └─ claude-md-improver スキル実行（必須）
-       └─ 評価スコア確認
-       └─ 改善点があれば修正
-       └─ 再評価（必要に応じて）
-       └─ 完了
+       └─ 評価・改善 → 完了
 ```
 
 ---
@@ -89,7 +95,6 @@ CLAUDE.md 編集
 
 ### Files Modified
 - path/to/file.ts — 変更内容の説明
-- ...
 
 ### Open Questions
 未解決の問題・判断が必要な事項
@@ -102,14 +107,19 @@ CLAUDE.md 編集
 
 ## 並列実行パターン
 
-独立したタスクは並列で実行する:
-
 ```
 品質ゲート（並列実行）:
   ├─ code-reviewer: コード品質チェック
   ├─ security-reviewer: セキュリティチェック
   └─ database-reviewer: DB部分チェック（該当時）
        └─ 結果をマージして完了判定
+```
+
+```
+実装（並列実行）:
+  ├─ frontend-engineer: UI・ページ・コンポーネント
+  └─ backend-engineer: ドメインモデル・ユースケース・API
+       └─ 両方完了後に品質ゲートへ
 ```
 
 ```
@@ -128,6 +138,9 @@ CLAUDE.md 編集
 | セキュリティ CRITICAL 発見 | 即時停止 → security-reviewer |
 | アーキテクチャ判断が必要 | architect にエスカレーション |
 | 複雑度が HIGH 以上に変化 | planner で再計画 |
+| UI/UX判断が必要 | ui-designer にエスカレーション |
+| DDD層境界が不明確 | backend-engineer に確認 |
+| デプロイ・環境問題 | infra-engineer にエスカレーション |
 | コンテキスト限界が近い | /save-session 実行 |
 | 確認を求めたくなった | anti-human-bottleneck スキル実行 |
 
@@ -137,8 +150,8 @@ CLAUDE.md 編集
 
 | モデル | エージェント | 使用場面 |
 |-------|-----------|---------|
-| opus | planner, architect, chief-of-staff | 深い推論・設計判断・曖昧な要件 |
-| sonnet | その他全エージェント | 実装・レビュー・テスト・ビルド修正 |
+| opus | planner, architect, chief-of-staff, frontend-engineer, backend-engineer, mobile-engineer, ui-designer | 設計判断・複数レイヤー横断・DDD層境界・アーキテクチャ構築 |
+| sonnet | code-reviewer, security-reviewer, tdd-guide, e2e-runner, build-error-resolver, go-build-resolver, kotlin-build-resolver, python-reviewer, go-reviewer, kotlin-reviewer, database-reviewer, refactor-cleaner, infra-engineer, loop-operator, harness-optimizer, env-doctor | 定型実装・パターン適用・レビュー・ビルド修正 |
 | haiku | doc-updater | 機械的なドキュメント更新 |
 
 ---

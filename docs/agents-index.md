@@ -1,5 +1,5 @@
 # Agents Index
-> 全19エージェントの概要カタログ。タスクルーティング時の参照用。
+> 全24エージェントの概要カタログ。タスクルーティング時の参照用。
 
 ## クイック参照テーブル
 
@@ -24,6 +24,11 @@
 | loop-operator | 保守・運用 | sonnet | 自律エージェントループの監視・停止条件管理・安全な介入 | 自律ループ実行・ループ停止時 |
 | env-doctor | 保守・運用 | sonnet | 環境ワークフロー診断（フック・設定・参照整合性・状態ファイル） | ECC更新後・フック異常時・定期ヘルスチェック |
 | chief-of-staff | コミュニケーション | opus | Email/Slack/LINE/Messengerの4段階トリアージと返信下書き | マルチチャンネルコミュニケーション管理時 |
+| frontend-engineer | 実装 | sonnet | Next.js App Router + React 19 + Tailwind CSS フロントエンド実装 | フロントエンド機能・ページ・コンポーネント実装時 |
+| backend-engineer | 実装 | sonnet | DDD 4層 + Next.js Server Actions + Prisma バックエンド実装 | バックエンドロジック・データモデル・API統合時 |
+| infra-engineer | 実装 | sonnet | Vercel + Supabase + GitHub Actions + Docker インフラ構築 | CI/CD・デプロイ・環境構築・監視設定時 |
+| mobile-engineer | 実装 | sonnet | React Native/Expo + Swift/SwiftUI + Kotlin/Compose モバイル実装 | iOS/Androidアプリ設計・実装・ビルド・テスト時 |
+| ui-designer | デザイン | sonnet | デザインシステム構築・UIプロトタイプ・アクセシビリティ | UI設計・プロトタイプ・デザインシステム・WCAG準拠時 |
 
 ---
 
@@ -189,7 +194,50 @@
 
 ---
 
-### コミュニケーション
+### 実装
+
+#### frontend-engineer
+- **モデル**: sonnet
+- **ツール**: Read, Write, Edit, Bash, Grep, Glob
+- **用途**: Next.js App Router + React 19 + Tailwind CSS によるフロントエンド実装。UIコンポーネント・ページ・状態管理・レスポンシブデザイン
+- **呼び出し**: `Agent tool, subagent_type: "frontend-engineer"`
+- **自動発動**: フロントエンド機能・ページ・コンポーネントの実装時
+
+#### backend-engineer
+- **モデル**: sonnet
+- **ツール**: Read, Write, Edit, Bash, Grep, Glob
+- **用途**: DDD 4層アーキテクチャ + Next.js Server Actions + Prisma によるバックエンド実装。ドメインモデル・ユースケース・リポジトリ・Gateway
+- **呼び出し**: `Agent tool, subagent_type: "backend-engineer"`
+- **自動発動**: バックエンドロジック・データモデル・API統合の実装時
+
+#### infra-engineer
+- **モデル**: sonnet
+- **ツール**: Read, Write, Edit, Bash, Grep, Glob
+- **用途**: Vercel + Supabase + GitHub Actions + Docker によるインフラ構築。CI/CDパイプライン・デプロイ設定・環境構築・監視
+- **呼び出し**: `Agent tool, subagent_type: "infra-engineer"`
+- **自動発動**: デプロイ設定・CI/CD構築・環境管理・インフラトラブルシュート時
+
+#### mobile-engineer
+- **モデル**: sonnet
+- **ツール**: Read, Write, Edit, Bash, Grep, Glob
+- **用途**: React Native/Expo + Swift/SwiftUI + Kotlin/Compose によるモバイルアプリ実装。iOS/Android設計・実装・ビルド・テスト
+- **呼び出し**: `Agent tool, subagent_type: "mobile-engineer"`
+- **自動発動**: モバイルアプリ機能実装・ビルド設定・プラットフォーム固有問題対応時
+
+---
+
+### デザイン
+
+#### ui-designer
+- **モデル**: sonnet
+- **ツール**: Read, Write, Edit, Bash, Grep, Glob
+- **用途**: デザインシステム構築・UIプロトタイプ・アクセシビリティ。業種別最適デザイン・コンポーネント仕様策定・WCAG準拠
+- **呼び出し**: `Agent tool, subagent_type: "ui-designer"`
+- **自動発動**: UIコンポーネント設計・プロトタイプ作成・デザインシステム構築・アクセシビリティ準拠時
+
+---
+
+### 保守・運用（続き）
 
 #### env-doctor
 - **モデル**: sonnet
@@ -222,8 +270,8 @@
   - 複雑な推論・深い分析・長期計画が必要なタスク
   - コスト: 最高。複雑な判断が必要な場合のみ使用。
 
-- **sonnet** (15エージェント): code-reviewer, python-reviewer, go-reviewer, kotlin-reviewer, database-reviewer, tdd-guide, e2e-runner, build-error-resolver, go-build-resolver, kotlin-build-resolver, security-reviewer, refactor-cleaner, harness-optimizer, loop-operator, env-doctor
-  - メインの開発作業・コードレビュー・テスト・ビルド修正
+- **sonnet** (20エージェント): code-reviewer, python-reviewer, go-reviewer, kotlin-reviewer, database-reviewer, tdd-guide, e2e-runner, build-error-resolver, go-build-resolver, kotlin-build-resolver, security-reviewer, refactor-cleaner, harness-optimizer, loop-operator, env-doctor, frontend-engineer, backend-engineer, infra-engineer, mobile-engineer, ui-designer
+  - メインの開発作業・コードレビュー・テスト・ビルド修正・実装・デザイン
   - コスト: 中。日常的な開発タスクの標準モデル。
 
 - **haiku** (1エージェント): doc-updater
