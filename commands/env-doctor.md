@@ -18,7 +18,7 @@ Run comprehensive health checks on the ~/.claude/ environment.
 
 1. Run the core diagnostic library to execute all checks:
    ```bash
-   node -e "const c = require('C:/Users/Nagi/.claude/scripts/lib/env-doctor-checks.js'); console.log(c.formatReport(c.runFullChecks()))"
+   node -e "const c = require('~/.claude/scripts/lib/env-doctor-checks.js'); console.log(c.formatReport(c.runFullChecks()))"
    ```
 
 2. Review the report and provide analysis:
@@ -33,7 +33,7 @@ Run comprehensive health checks on the ~/.claude/ environment.
 
 4. If `--update-baseline` was specified:
    ```bash
-   node -e "const c = require('C:/Users/Nagi/.claude/scripts/lib/env-doctor-checks.js'); const fs = require('fs'); fs.writeFileSync('C:/Users/Nagi/.claude/config/env-doctor-baseline.json', JSON.stringify(c.generateBaseline(), null, 2))"
+   node -e "const c = require('~/.claude/scripts/lib/env-doctor-checks.js'); const fs = require('fs'); fs.writeFileSync('~/.claude/config/env-doctor-baseline.json', JSON.stringify(c.generateBaseline(), null, 2))"
    ```
 
 ## Scoped Execution

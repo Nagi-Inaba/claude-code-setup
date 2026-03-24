@@ -13,6 +13,23 @@ cd claude-code-setup
 ```
 
 ### Install Options
+### Path Configuration
+
+Some skills and agents reference paths that you may need to customize for your environment:
+
+| Placeholder | Description | Example |
+|-------------|-------------|---------|
+| `~/.claude/` | Claude Code config directory | Resolves automatically via `~` |
+| `~/.company/` | Organization management directory (used by `session-report` skill) | Set up with `/company` skill |
+| `<your-skills-directory>` | Local skills repository path (in `skills/CLAUDE.md`) | `/path/to/your/claudecodeskills` |
+| `<path-to-product-starter>` | product-starter clone location (in `docs/product-starter.md`) | `~/dev/product-starter` |
+
+After installation, search for these placeholders and replace them with your actual paths:
+
+```bash
+grep -rn '<your-\|<path-to-' ~/.claude/
+```
+
 
 ```bash
 ./install.sh --dry-run                     # Preview without installing

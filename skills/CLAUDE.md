@@ -36,7 +36,7 @@ engineering 部署が管理。スキルの追加・変更は `engineering/docs/`
 /install-plugin cursor-skills
 
 # ローカルパスをマーケットプレイスとして登録済み
-# C:/Users/Nagi/OneDrive/claudecodeskills が cursor-skills として登録されている
+# <your-skills-directory> が cursor-skills として登録されている
 ```
 
 ## Gotchas

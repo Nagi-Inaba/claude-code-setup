@@ -1,7 +1,7 @@
 # product-starter (jujunjun110) — DDD実装支援ツール
 
 `ps-` プレフィックスで統合済み。全プロジェクトの実装フェーズで使用可能。DDD 4層アーキテクチャ（Next.js + Supabase + Prisma）プロジェクトでは特に推奨。
-ソース: `C:/Users/Nagi/tmp/product-starter/` (git clone済み)
+ソース: `<path-to-product-starter>/` (git clone済み)
 
 ## コマンド（`~/.claude/commands/`）
 
