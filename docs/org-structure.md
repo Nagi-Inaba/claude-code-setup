@@ -1,7 +1,7 @@
 # Agent Organization Structure
 > エージェント間の階層・ハンドオフルール・エスカレーションパス。
 
-## 組織階層（5レイヤー・24エージェント）
+## 組織階層（5レイヤー・25エージェント）
 
 ```
                           [Orchestrator]
@@ -23,7 +23,7 @@
                       cleaner
                       doc-updater
 ```
-> 全24エージェント。詳細は `agents-index.md` 参照。
+> 全25エージェント。詳細は `agents-index.md` 参照。
 
 ---
 

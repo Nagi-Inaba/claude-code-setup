@@ -14,9 +14,9 @@ Claude Code の自動化に使用されるスクリプト群。
 ### セッション管理
 | スクリプト | トリガー | 説明 |
 |-----------|---------|-----|
-| `session-start.js` | SessionStart | セッション開始時の初期化（`clearAllLocks()` で前セッションのロックを全クリア） |
+| `session-start.js` | SessionStart | セッション開始時の初期化（`clearAllLocks()` で前セッションのロックを全クリア）。セッションサマリー注入は日本語 |
 | `daily-task-briefing.js` | SessionStart | 今日のタスクファイル読み込み→優先度順提示指示を注入（v2 run() export形式） |
-| `session-end.js` | Stop | セッション状態を `sessions/` に保存 |
+| `session-end.js` | Stop | セッション状態を `sessions/` に保存（出力ラベルは日本語） |
 | `session-end-marker.js` | SessionEnd | セッション終了マーカー記録 |
 
 ### スキル同期

@@ -147,18 +147,18 @@ function extractHeaderField(header, label) {
 
 function buildSessionHeader(today, currentTime, metadata, existingContent = '') {
   const headingMatch = existingContent.match(/^#\s+.+$/m);
-  const heading = headingMatch ? headingMatch[0] : `# Session: ${today}`;
-  const date = extractHeaderField(existingContent, 'Date') || today;
-  const started = extractHeaderField(existingContent, 'Started') || currentTime;
+  const heading = headingMatch ? headingMatch[0] : `# セッション: ${today}`;
+  const date = extractHeaderField(existingContent, 'Date') || extractHeaderField(existingContent, '日付') || today;
+  const started = extractHeaderField(existingContent, 'Started') || extractHeaderField(existingContent, '開始') || currentTime;
 
   return [
     heading,
-    `**Date:** ${date}`,
-    `**Started:** ${started}`,
-    `**Last Updated:** ${currentTime}`,
-    `**Project:** ${metadata.project}`,
-    `**Branch:** ${metadata.branch}`,
-    `**Worktree:** ${metadata.worktree}`,
+    `**日付:** ${date}`,
+    `**開始:** ${started}`,
+    `**最終更新:** ${currentTime}`,
+    `**プロジェクト:** ${metadata.project}`,
+    `**ブランチ:** ${metadata.branch}`,
+    `**作業ディレクトリ:** ${metadata.worktree}`,
     ''
   ].join('\n');
 }
@@ -234,8 +234,8 @@ async function main() {
       } else {
         // Migration path for files created before summary markers existed.
         updatedContent = updatedContent.replace(
-          /## (?:Session Summary|Current State)[\s\S]*?$/,
-          `${summaryBlock}\n\n### Notes for Next Session\n-\n\n### Context to Load\n\`\`\`\n[relevant files]\n\`\`\`\n`
+          /## (?:Session Summary|セッションサマリー|Current State|現在の状態)[\s\S]*?$/,
+          `${summaryBlock}\n\n### 次回セッションへのメモ\n-\n\n### ロードするコンテキスト\n\`\`\`\n[関連ファイル]\n\`\`\`\n`
         );
       }
     }
@@ -248,8 +248,8 @@ async function main() {
   } else {
     // Create new session file
     const summarySection = summary
-      ? `${buildSummaryBlock(summary)}\n\n### Notes for Next Session\n-\n\n### Context to Load\n\`\`\`\n[relevant files]\n\`\`\``
-      : `## Current State\n\n[Session context goes here]\n\n### Completed\n- [ ]\n\n### In Progress\n- [ ]\n\n### Notes for Next Session\n-\n\n### Context to Load\n\`\`\`\n[relevant files]\n\`\`\``;
+      ? `${buildSummaryBlock(summary)}\n\n### 次回セッションへのメモ\n-\n\n### ロードするコンテキスト\n\`\`\`\n[関連ファイル]\n\`\`\``
+      : `## 現在の状態\n\n[セッションコンテキスト]\n\n### 完了\n- [ ]\n\n### 進行中\n- [ ]\n\n### 次回セッションへのメモ\n-\n\n### ロードするコンテキスト\n\`\`\`\n[関連ファイル]\n\`\`\``;
 
     const template = `${buildSessionHeader(today, currentTime, sessionMetadata)}${SESSION_SEPARATOR}${summarySection}
 `;
@@ -284,30 +284,30 @@ async function main() {
 }
 
 function buildSummarySection(summary) {
-  let section = '## Session Summary\n\n';
+  let section = '## セッションサマリー\n\n';
 
-  // Tasks (from user messages — collapse newlines and escape backticks to prevent markdown breaks)
-  section += '### Tasks\n';
+  // タスク（ユーザーメッセージから — 改行を折り畳み、バッククォートをエスケープ）
+  section += '### タスク\n';
   for (const msg of summary.userMessages) {
     section += `- ${msg.replace(/\n/g, ' ').replace(/`/g, '\\`')}\n`;
   }
   section += '\n';
 
-  // Files modified
+  // 変更ファイル
   if (summary.filesModified.length > 0) {
-    section += '### Files Modified\n';
+    section += '### 変更ファイル\n';
     for (const f of summary.filesModified) {
       section += `- ${f}\n`;
     }
     section += '\n';
   }
 
-  // Tools used
+  // 使用ツール
   if (summary.toolsUsed.length > 0) {
-    section += `### Tools Used\n${summary.toolsUsed.join(', ')}\n\n`;
+    section += `### 使用ツール\n${summary.toolsUsed.join(', ')}\n\n`;
   }
 
-  section += `### Stats\n- Total user messages: ${summary.totalMessages}\n`;
+  section += `### 統計\n- ユーザーメッセージ数: ${summary.totalMessages}\n`;
 
   return section;
 }

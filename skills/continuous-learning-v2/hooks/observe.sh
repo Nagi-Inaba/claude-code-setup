@@ -12,6 +12,11 @@
 
 set -e
 
+# Force UTF-8 on Windows to prevent CP932/UTF-8 mojibake
+export PYTHONUTF8=1
+export PYTHONIOENCODING=utf-8
+export LANG=en_US.UTF-8
+
 # Hook phase from CLI argument: "pre" (PreToolUse) or "post" (PostToolUse)
 HOOK_PHASE="${1:-post}"
 

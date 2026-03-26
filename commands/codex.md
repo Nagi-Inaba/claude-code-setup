@@ -74,9 +74,9 @@ codex exec "{ユーザーの質問}" -s read-only -c 'model_reasoning_effort="hi
 
 ## 重要ルール
 
+- **! 経由で実行する（必須）**: Codex CLI は対話型ターミナルが必要。Bash ツールでは `stdin is not a terminal` エラーで動作しない。必ず `! codex ...` でユーザーのターミナルセッションで実行する
 - **Read-only**: このコマンドはファイルを変更しない。Codex は read-only sandbox で実行する
 - **出力はそのまま表示**: Codex の出力を要約・省略しない。全文を表示してから Claude のコメントを追記
-- **5分タイムアウト**: Bash 呼び出しに `timeout: 300000` を設定
 - **二重レビュー禁止**: `/code-review` の結果を Codex に渡さない。独立した意見を得るため
 
 ## code-reviewer との棲み分け

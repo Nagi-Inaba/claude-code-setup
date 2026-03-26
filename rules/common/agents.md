@@ -39,6 +39,17 @@ Launch 3 agents in parallel:
 First agent 1, then agent 2, then agent 3
 ```
 
+## Agent ツール vs Skill ツール（厳守）
+
+**スキル（スラッシュコマンド）は Skill ツールで呼ぶ。Agent ツールの subagent_type にスキル名を指定してはいけない。**
+
+| 対象 | ツール | 例 |
+|------|--------|-----|
+| `~/.claude/agents/` のエージェント | Agent ツール | `code-reviewer`, `planner`, `security-reviewer` |
+| スラッシュコマンド・プラグインスキル | Skill ツール | `/revise-claude-md`, `/claude-md-improver`, `/save-session` |
+
+誤って Agent に渡すと全エージェント一覧（170+種）がエラー出力され、コンテキストを大量消費する。
+
 ## Multi-Perspective Analysis
 
 For complex problems, use split role sub-agents:

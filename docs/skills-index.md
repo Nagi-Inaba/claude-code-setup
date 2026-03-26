@@ -5,7 +5,7 @@
 
 | ソース | パス | スキル数 |
 |-------|-----|---------|
-| ECC Skills | `~/.claude/skills/` | 70個（+ learned/ 配下に10個の学習済みスキル） |
+| ECC Skills | `~/.claude/skills/` | 80個（+ learned/ 配下に10個の学習済みスキル） |
 | OneDrive Skills | `~/OneDrive/claudecodeskills/` | 38個 |
 
 > OneDriveスキルの一部（algorithmic-art, brand-guidelines, canvas-design等）はECCにも同名スキルが存在する。ECC版が優先される。
@@ -28,6 +28,16 @@
 | `pdf` | `.pdf`ファイル操作・テキスト抽出・OCR要求時 |
 | `docx` | Word文書・`.docx`・報告書・メモ・テンプレート作成時 |
 | `pptx` | スライド・プレゼン・デッキ・`.pptx`操作時 |
+| `pricing-strategy` | 価格設定・パッケージング・マネタイズ戦略の設計時 |
+| `launch-strategy` | プロダクトローンチ・機能リリースの計画時 |
+| `free-tool-strategy` | 無料ツール・Engineering-as-marketingの企画時 |
+| `seo-fundamentals` | SEO基礎・技術SEO・E-E-A-T対応時 |
+| `seo-content-planner` | コンテンツ戦略・トピッククラスター計画時 |
+| `top-web-vulnerabilities` | Webアプリの脆弱性テスト・セキュリティ監査時 |
+| `cold-email` | B2Bアウトバウンド・コールドメール作成時 |
+| `email-sequence` | メールシーケンス・ライフサイクルメール設計時 |
+| `lead-magnets` | リードマグネット・ゲーテッドコンテンツ設計時 |
+| `kaizen` | コード品質改善・プロセス改善・リファクタリング時 |
 | `xlsx` | `.xlsx`・スプレッドシート・Excel・CSV操作時 |
 | `frontend-design` | Webコンポーネント・ランディングページ・React UI作成時 |
 | `canvas-design` | ポスター・ビジュアルアート・デザイン作成時 |
@@ -111,6 +121,7 @@
 |-------|-------|------|
 | `security-review` | ECC | 認証・ユーザー入力・シークレット・APIエンドポイント・決済機能実装時の包括的セキュリティチェック |
 | `security-scan` | ECC | AgentShieldによる`.claude/`ディレクトリのセキュリティ脆弱性・設定ミス・インジェクションリスクスキャン |
+| `top-web-vulnerabilities` | Antigravity | Web脆弱性100種（15カテゴリ、OWASP Top 10対応）。攻撃者視点の脆弱性リファレンス |
 | `django-security` | ECC | Django認証・認可・CSRF保護・SQLインジェクション防止・XSS防止・安全なデプロイ設定 |
 | `springboot-security` | ECC | Spring Security認証/認可・バリデーション・CSRF・シークレット・ヘッダー・レートリミット |
 
@@ -179,6 +190,38 @@
 | `growth-advisor` | OneDrive | Supabase・Stripe・GA4・Search Console MCPでメトリクスを分析し収益成長戦略を提案 |
 | `new-webapp` | OneDrive | インタラクティブなWebプロジェクトセットアップ（Next.js/React+Vite・Supabase・Stripe・認証選択） |
 | `stripe-setup` | OneDrive | Stripe決済実装ガイド（サブスクリプション3段階・単発決済・Customer Portal・Webhook） |
+| `pricing-strategy` | Antigravity | 価格設計（Van Westendorp・ティア設計・バリューメトリクス・フリーミアム戦略・値上げ戦略） |
+| `launch-strategy` | Antigravity | SaaSローンチ戦略（ORBフレームワーク・5段階プロセス・Product Huntプレイブック） |
+| `free-tool-strategy` | Antigravity | Engineering-as-marketing。無料ツールでリード獲得・SEO・ROI予測 |
+| `lead-magnets` | Antigravity | リードマグネット設計・ゲーティング戦略・LP構成・プロモーション・KPI計測 |
+| `cold-email` | Antigravity | B2Bコールドメール・パーソナライゼーション・フォローアップシーケンス |
+| `email-sequence` | Antigravity | SaaSライフサイクルメール設計（オンボーディング・リテンション・ウィンバック・キャンペーン） |
+| `kaizen` | Antigravity | 継続的改善・ポカヨケ・標準化・JIT（TypeScript例付き） |
+
+---
+
+### SEO
+
+| スキル | ソース | 概要 |
+|-------|-------|------|
+| `seo-fundamentals` | Antigravity | E-E-A-T・Core Web Vitals・技術SEO基礎・コンテンツ品質シグナル・構造化データ |
+| `seo-content-planner` | Antigravity | トピッククラスター計画・コンテンツカレンダー・検索意図マッピング |
+
+---
+
+### LP制作・ランディングページ
+
+| スキル | ソース | 概要 |
+|-------|-------|------|
+| `lp-builder` | custom | toB LP生成（3md構造: design-system/lp-structure/content-template）。ui-ux-pro-max→vibe-design→ps-design-uiパイプライン連携 |
+
+---
+
+### 環境診断・改善
+
+| スキル | ソース | 概要 |
+|-------|-------|------|
+| `cc-diagnosis` | custom | CC環境活用度を6軸100点でスコアリング。/env-doctor（健全性）・/harness-audit（設定品質）を補完する活用度レイヤー |
 
 ---
 

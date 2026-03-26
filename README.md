@@ -1,6 +1,6 @@
 # Claude Code Setup
 
-A fully-configured Claude Code environment with 24 agents, 59 commands, 91 skills, 7 language rule sets, and 39 automation hooks.
+A fully-configured Claude Code environment with 24 agents, 59 commands, 82 skills, 8 language rule sets, and 38 automation hooks.
 
 Built on [Everything Claude Code (ECC)](https://github.com/anthropics/everything-claude-code) v1.8.0 with extensive customization.
 

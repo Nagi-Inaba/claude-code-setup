@@ -45,9 +45,9 @@ async function main() {
 
     // Read and inject the latest session content into Claude's context
     const content = readFile(latest.path);
-    if (content && !content.includes('[Session context goes here]')) {
+    if (content && !content.includes('[Session context goes here]') && !content.includes('[セッションコンテキスト]')) {
       // Only inject if the session has actual content (not the blank template)
-      output(`Previous session summary:\n${content}`);
+      output(`前回セッションのサマリー:\n${content}`);
     }
   }
 

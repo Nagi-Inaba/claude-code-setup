@@ -117,11 +117,12 @@ def detect_project() -> dict:
         try:
             result = subprocess.run(
                 ["git", "rev-parse", "--show-toplevel"],
-                capture_output=True, text=True, timeout=5
+                capture_output=True, text=True, encoding="utf-8",
+                errors="replace", timeout=5
             )
-            if result.returncode == 0:
+            if result.returncode == 0 and result.stdout:
                 project_root = result.stdout.strip()
-        except (subprocess.TimeoutExpired, FileNotFoundError):
+        except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
             pass
 
     # 3. No project — global fallback
@@ -403,7 +404,7 @@ def _print_instincts_by_domain(instincts: list[dict]) -> None:
 
         for inst in sorted(domain_instincts, key=lambda x: -x.get('confidence', 0.5)):
             conf = inst.get('confidence', 0.5)
-            conf_bar = '\u2588' * int(conf * 10) + '\u2591' * (10 - int(conf * 10))
+            conf_bar = '#' * int(conf * 10) + '-' * (10 - int(conf * 10))
             trigger = inst.get('trigger', 'unknown trigger')
             scope_tag = f"[{inst.get('scope', '?')}]"
 
@@ -968,11 +969,14 @@ def cmd_projects(args) -> int:
         print("Projects are auto-detected when you use Claude Code in a git repo.")
         return 0
 
+    # Filter out metadata keys (version, projects, etc.) — only iterate project entries (dict values with 'id')
+    project_entries = {k: v for k, v in registry.items() if isinstance(v, dict) and 'id' in v}
+
     print(f"\n{'='*60}")
-    print(f"  KNOWN PROJECTS - {len(registry)} total")
+    print(f"  KNOWN PROJECTS - {len(project_entries)} total")
     print(f"{'='*60}\n")
 
-    for pid, pinfo in sorted(registry.items(), key=lambda x: x[1].get('last_seen', ''), reverse=True):
+    for pid, pinfo in sorted(project_entries.items(), key=lambda x: x[1].get('last_seen', ''), reverse=True):
         project_dir = PROJECTS_DIR / pid
         personal_dir = project_dir / "instincts" / "personal"
         inherited_dir = project_dir / "instincts" / "inherited"

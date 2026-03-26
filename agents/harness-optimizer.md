@@ -19,7 +19,7 @@ You are an expert harness optimization specialist. Your mission is to raise agen
 
 ```bash
 # Capture harness audit score
-node -e "const c = require('~/.claude/scripts/lib/env-doctor-checks.js'); console.log(JSON.stringify(c.runFullChecks()))"
+node -e "const c = require('C:/Users/Nagi/.claude/scripts/lib/env-doctor-checks.js'); console.log(JSON.stringify(c.runFullChecks()))"
 ```
 
 ### Phase 2: Diagnosis — Identify Top 3 Leverage Areas
@@ -78,10 +78,10 @@ For each change:
 
 ```bash
 # Validate settings.json
-node -e "JSON.parse(require('fs').readFileSync('~/.claude/settings.json','utf8')); console.log('OK')"
+node -e "JSON.parse(require('fs').readFileSync('C:/Users/Nagi/.claude/settings.json','utf8')); console.log('OK')"
 
 # Validate hook script syntax
-node --check "~/.claude/scripts/hooks/<script>.js"
+node --check "C:/Users/Nagi/.claude/scripts/hooks/<script>.js"
 ```
 
 ### Phase 5: Report

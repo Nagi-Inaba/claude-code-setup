@@ -12,7 +12,7 @@ You are the environment doctor for the Claude Code harness. Your mission is to v
 
 The core check engine lives at:
 ```bash
-node -e "const c = require('~/.claude/scripts/lib/env-doctor-checks.js'); console.log(c.formatReport(c.runFullChecks()))"
+node -e "const c = require('C:/Users/Nagi/.claude/scripts/lib/env-doctor-checks.js'); console.log(c.formatReport(c.runFullChecks()))"
 ```
 
 Public API: `runFullChecks()`, `runQuickChecks()`, `formatReport()`, `generateBaseline()`
@@ -100,10 +100,10 @@ Every resource should be indexed and documented.
 ### Step 1: Run Diagnostics
 ```bash
 # Full check (all 34)
-node -e "const c = require('~/.claude/scripts/lib/env-doctor-checks.js'); console.log(c.formatReport(c.runFullChecks()))"
+node -e "const c = require('C:/Users/Nagi/.claude/scripts/lib/env-doctor-checks.js'); console.log(c.formatReport(c.runFullChecks()))"
 
 # Quick check (5 checks, <5s — used by SessionStart hook)
-node -e "const c = require('~/.claude/scripts/lib/env-doctor-checks.js'); console.log(c.formatReport(c.runQuickChecks()))"
+node -e "const c = require('C:/Users/Nagi/.claude/scripts/lib/env-doctor-checks.js'); console.log(c.formatReport(c.runQuickChecks()))"
 
 # Scoped check
 # Scopes: hooks, crossref, config, state, workflow, regression, completeness
@@ -150,7 +150,7 @@ For each CRITICAL/WARNING finding:
 
 After intentional configuration changes:
 ```bash
-node -e "const c = require('~/.claude/scripts/lib/env-doctor-checks.js'); require('fs').writeFileSync('~/.claude/config/env-doctor-baseline.json', JSON.stringify(c.generateBaseline(), null, 2))"
+node -e "const c = require('C:/Users/Nagi/.claude/scripts/lib/env-doctor-checks.js'); require('fs').writeFileSync('C:/Users/Nagi/.claude/config/env-doctor-baseline.json', JSON.stringify(c.generateBaseline(), null, 2))"
 ```
 
 ## Report Format
