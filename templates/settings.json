@@ -1,78 +1,538 @@
 {
   "permissions": {
-    "allow": [],
-    "deny": [
-      "Bash(rm -rf /)",
-      "Bash(rm -rf ~)",
-      "Bash(rm -rf /*)",
-      "Bash(git*commit*no-verify*)",
-      "Bash(git*push*force*main*)",
-      "Bash(git*push*force*master*)",
-      "Bash(curl*|*sh*)",
-      "Bash(wget*|*sh*)",
-      "Bash(*> /etc/*)",
-      "Bash(*chmod 777*)",
-      "Bash(sudo *)",
-      "Bash(ssh *)",
-      "Bash(*> /dev/*)",
-      "Bash(*ANTHROPIC_API_KEY*)",
-      "Bash(*OPENAI_API_KEY*)",
-      "Bash(*STRIPE_SECRET*)",
-      "Bash(*DATABASE_URL*)",
-      "Bash(*DROP TABLE*)",
-      "Bash(*DROP DATABASE*)",
-      "Bash(*TRUNCATE TABLE*)"
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git stash list)",
+      "Bash(ls *)",
+      "Bash(pwd)",
+      "Bash(python --version)",
+      "Bash(python3 --version)",
+      "Bash(node --version)",
+      "Bash(pip list)",
+      "Bash(pip show *)",
+      "Bash(npm list)",
+      "Bash(npm audit)",
+      "Bash(npx playwright test *)",
+      "Bash(npx playwright test)",
+      "Bash(npx playwright show-report *)",
+      "Bash(npx playwright install *)",
+      "Bash(npx playwright install)",
+      "Bash(git branch *)",
+      "Bash(git branch)",
+      "Bash(git remote *)",
+      "Bash(git blame *)",
+      "Bash(git shortlog *)",
+      "Bash(git rev-parse *)",
+      "Bash(git describe *)",
+      "Bash(git tag)",
+      "Bash(git tag -l *)",
+      "Bash(gh repo view *)",
+      "Bash(gh pr list *)",
+      "Bash(gh pr list)",
+      "Bash(gh pr view *)",
+      "Bash(gh pr diff *)",
+      "Bash(gh pr checks *)",
+      "Bash(gh pr status)",
+      "Bash(gh pr status *)",
+      "Bash(gh issue list *)",
+      "Bash(gh issue list)",
+      "Bash(gh issue view *)",
+      "Bash(gh issue status)",
+      "Bash(gh run list *)",
+      "Bash(gh run list)",
+      "Bash(gh run view *)",
+      "Bash(gh release list *)",
+      "Bash(gh release list)",
+      "Bash(gh release view *)",
+      "Bash(gh search *)",
+      "Bash(gh label list *)",
+      "Bash(gh label list)",
+      "Bash(gh browse *)",
+      "Bash(gh auth status)",
+      "Bash(gh auth status *)",
+      "Bash(gh api repos/*/pulls/*/comments)",
+      "Bash(gh api *)",
+      "Bash(gh pr create *)",
+      "Bash(gh pr comment *)",
+      "Bash(gh pr edit *)",
+      "Bash(gh pr review *)",
+      "Bash(gh issue create *)",
+      "Bash(gh repo clone *)",
+      "Bash(gh release create *)",
+      "Bash(gh gist create *)",
+      "Bash(gh repo create *)",
+      "WebFetch",
+      "WebSearch",
+      "Bash(mkdir *)",
+      "Bash(which *)",
+      "Bash(where *)",
+      "Bash(tree *)",
+      "Bash(tree)",
+      "Bash(wc *)",
+      "Bash(echo *)",
+      "Bash(git add *)",
+      "Bash(git fetch *)",
+      "Bash(git fetch)",
+      "Bash(git pull *)",
+      "Bash(git pull)",
+      "Bash(git stash *)",
+      "Bash(git stash)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git push)",
+      "Bash(git checkout *)",
+      "Bash(git switch *)",
+      "Bash(git merge *)",
+      "Bash(npm run build *)",
+      "Bash(npm run build)",
+      "Bash(npm run dev *)",
+      "Bash(npm run dev)",
+      "Bash(npm run start *)",
+      "Bash(npm run start)",
+      "Bash(npm run lint *)",
+      "Bash(npm run lint)",
+      "Bash(npm run test *)",
+      "Bash(npm run test)",
+      "Bash(npm run format *)",
+      "Bash(npm run format)",
+      "Bash(npm run typecheck *)",
+      "Bash(npm run typecheck)",
+      "Bash(npm run check *)",
+      "Bash(npm run check)",
+      "Bash(npm run preview *)",
+      "Bash(npm run preview)",
+      "Bash(npm test *)",
+      "Bash(npm test)",
+      "Bash(npm install)",
+      "Bash(npm ci)",
+      "Bash(npm ci *)",
+      "Bash(npx tsc *)",
+      "Bash(npx tsc)",
+      "Bash(npx eslint *)",
+      "Bash(npx eslint)",
+      "Bash(npx prettier *)",
+      "Bash(npx prettier)",
+      "Bash(npx vitest *)",
+      "Bash(npx vitest)",
+      "Bash(npx jest *)",
+      "Bash(npx jest)",
+      "Bash(go build *)",
+      "Bash(go test *)",
+      "Bash(go run *)",
+      "Bash(go mod *)",
+      "Bash(go vet *)",
+      "Bash(pip install -r *)",
+      "Bash(cd *)",
+      "Bash(*codeagent-wrapper*)"
     ],
-    "defaultMode": "allowEdits"
+    "deny": [
+      "Bash(sudo *)",
+      "Bash(rm *)",
+      "Bash(rm -rf *)",
+      "Bash(git reset *)",
+      "Bash(git rebase *)",
+      "Bash(git clean *)",
+      "Bash(git branch -D *)",
+      "Bash(git tag -d *)",
+      "Read(.env.*)",
+      "Read(id_rsa)",
+      "Read(id_ed25519)",
+      "Read(**/*token*)",
+      "Read(**/*key*)",
+      "Read(**/*secret*)",
+      "Read(**/*.pem)",
+      "Read(**/*.p12)",
+      "Read(**/*.pfx)",
+      "Read(**/credentials*)",
+      "Read(**/.ssh/*)",
+      "Write(.env*)",
+      "Write(**/secrets/**)",
+      "Write(**/.ssh/*)",
+      "Write(**/credentials*)",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "Bash(nc *)",
+      "Bash(ncat *)",
+      "Bash(socat *)",
+      "Bash(ssh *)",
+      "Bash(scp *)",
+      "Bash(sftp *)",
+      "Bash(dd *)",
+      "Bash(npm publish *)",
+      "Bash(npm uninstall *)",
+      "Bash(npm remove *)",
+      "Bash(psql *)",
+      "Bash(mysql *)",
+      "Bash(mongod *)",
+      "Bash(powershell *)",
+      "Bash(cmd /c *)",
+      "Bash(wsl *)",
+      "Bash(reg *)",
+      "Bash(schtasks *)",
+      "Bash(taskkill *)",
+      "Bash(gh repo delete *)",
+      "Bash(gh release delete *)",
+      "Bash(gh release delete-asset *)",
+      "Bash(gh issue delete *)",
+      "Bash(gh pr close *)",
+      "Bash(gh pr merge *)",
+      "Bash(gh run cancel *)",
+      "Bash(gh secret delete *)",
+      "Bash(gh secret set *)",
+      "Bash(gh variable delete *)",
+      "Bash(gh label delete *)",
+      "Bash(gh cache delete *)",
+      "Bash(gh org delete *)",
+      "Bash(gh auth logout)"
+    ],
+    "defaultMode": "bypassPermissions"
   },
+  "model": "opus",
   "hooks": {
-    "__comment": "Hooks are auto-generated by install.sh. See hooks/hooks.json for plugin-based hooks.",
-    "PreToolUse": [],
-    "PostToolUse": [],
-    "Stop": [],
-    "SessionStart": [],
-    "SessionEnd": []
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/auto-tmux-dev.js\""
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"pre:bash:tmux-reminder\" \"scripts/hooks/pre-bash-tmux-reminder.js\" \"strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"pre:bash:git-push-reminder\" \"scripts/hooks/pre-bash-git-push-reminder.js\" \"strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"pre:write:doc-file-warning\" \"scripts/hooks/doc-file-warning.js\" \"standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"pre:edit-write:suggest-compact\" \"scripts/hooks/suggest-compact.js\" \"standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"pre:bash:dev-server-block\" \"scripts/hooks/pre-bash-dev-server-block.js\" \"standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"pre:bash:error-pattern-guard\" \"scripts/hooks/error-pattern-guard.js\" \"standard,strict\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:write-edit:claude-md-check\" \"scripts/hooks/claude-md-check.js\" \"standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:edit-write:claude-md-reminder\" \"scripts/hooks/claude-md-periodic-reminder.js\" \"standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:edit-write:security-check\" \"scripts/hooks/security-periodic-check.js\" \"standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:bash:pr-created\" \"scripts/hooks/post-bash-pr-created.js\" \"standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:quality-gate\" \"scripts/hooks/quality-gate.js\" \"standard,strict\"",
+            "timeout": 30,
+            "async": true
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:edit:format\" \"scripts/hooks/post-edit-format.js\" \"standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:edit:typecheck\" \"scripts/hooks/post-edit-typecheck.js\" \"standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:edit:console-warn\" \"scripts/hooks/post-edit-console-warn.js\" \"standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:bash:build-complete\" \"scripts/hooks/post-bash-build-complete.js\" \"standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:bash:error-pattern-capture\" \"scripts/hooks/error-pattern-capture.js\" \"standard,strict\""
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"user:dev-workflow-init\" \"scripts/hooks/dev-workflow-init.js\" \"standard,strict\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"stop:check-console-log\" \"scripts/hooks/check-console-log.js\" \"standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"stop:revise-claude-md\" \"scripts/hooks/stop-revise-claude-md.js\" \"standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"stop:dev-completion-review\" \"scripts/hooks/stop-dev-completion-review.js\" \"standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"stop:session-end\" \"scripts/hooks/session-end.js\" \"minimal,standard,strict\"",
+            "timeout": 10,
+            "async": true
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"stop:cost-tracker\" \"scripts/hooks/cost-tracker.js\" \"minimal,standard,strict\"",
+            "timeout": 10,
+            "async": true
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"stop:evaluate-session\" \"scripts/hooks/evaluate-session.js\" \"standard,strict\"",
+            "timeout": 15,
+            "async": true
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"stop:error-pattern-maintain\" \"scripts/hooks/error-pattern-maintain.js\" \"standard,strict\"",
+            "timeout": 15,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"session:start\" \"scripts/hooks/session-start.js\" \"minimal,standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"session:env-doctor-quick\" \"scripts/hooks/env-doctor-quick.js\" \"minimal,standard,strict\""
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"session:error-pattern-inject\" \"scripts/hooks/error-pattern-inject.js\" \"minimal,standard,strict\""
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"session:end:marker\" \"scripts/hooks/session-end-marker.js\" \"minimal,standard,strict\""
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"pre:compact\" \"scripts/hooks/pre-compact.js\" \"standard,strict\""
+          }
+        ]
+      }
+    ],
+    "ConfigChange": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const fs=require('fs');const d=new Date().toISOString();const log=process.env.USERPROFILE+'/.claude/config-change-audit.log';const input=require('fs').readFileSync('/dev/stdin','utf8');fs.appendFileSync(log,d+' '+input.trim()+'\\n');process.exit(0);\"",
+            "timeout": 10,
+            "async": true
+          }
+        ]
+      }
+    ]
   },
   "enabledPlugins": {
-    "__instructions": "Enable plugins from marketplaces below. Run: claude plugins install <name>@<marketplace>"
+    "code-simplifier@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "ralph-loop@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "figma@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true,
+    "ai-firstify@claude-plugins-official": true,
+    "codex@openai-codex": true
   },
   "extraKnownMarketplaces": {
-    "cc-company": {
+    "openai-codex": {
       "source": {
         "source": "github",
-        "repo": "Shin-sibainu/cc-company"
-      }
-    },
-    "cc-secretary": {
-      "source": {
-        "source": "github",
-        "repo": "Shin-sibainu/cc-secretary"
-      }
-    },
-    "knowledge-work-plugins": {
-      "source": {
-        "source": "github",
-        "repo": "anthropics/knowledge-work-plugins"
-      }
-    },
-    "claude-plugins-official": {
-      "source": {
-        "source": "github",
-        "repo": "anthropics/claude-plugins-official"
-      }
-    },
-    "financial-services-plugins": {
-      "source": {
-        "source": "github",
-        "repo": "anthropics/financial-services-plugins"
-      }
-    },
-    "agenticnotetaking": {
-      "source": {
-        "source": "github",
-        "repo": "agenticnotetaking/arscontexta"
+        "repo": "openai/codex-plugin-cc"
       }
     }
   },
-  "autoUpdatesChannel": "latest"
+  "language": "japanese",
+  "effortLevel": "high",
+  "autoUpdatesChannel": "latest",
+  "skipDangerousModePermissionPrompt": true
 }

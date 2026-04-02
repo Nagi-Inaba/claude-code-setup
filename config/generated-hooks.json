@@ -1,0 +1,48 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {"matcher": "Bash", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/auto-tmux-dev.js\""}]},
+      {"matcher": "Bash", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"pre:bash:tmux-reminder\" \"scripts/hooks/pre-bash-tmux-reminder.js\" \"strict\""}]},
+      {"matcher": "Bash", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"pre:bash:git-push-reminder\" \"scripts/hooks/pre-bash-git-push-reminder.js\" \"strict\""}]},
+      {"matcher": "Write", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"pre:write:doc-file-warning\" \"scripts/hooks/doc-file-warning.js\" \"standard,strict\""}]},
+      {"matcher": "Edit|Write", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"pre:edit-write:suggest-compact\" \"scripts/hooks/suggest-compact.js\" \"standard,strict\""}]},
+      {"matcher": "Bash", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"pre:bash:dev-server-block\" \"scripts/hooks/pre-bash-dev-server-block.js\" \"standard,strict\""}]},
+      {"matcher": "Bash", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"pre:bash:error-pattern-guard\" \"scripts/hooks/error-pattern-guard.js\" \"standard,strict\""}]}
+    ],
+    "PostToolUse": [
+      {"matcher": "Write|Edit", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:write-edit:claude-md-check\" \"scripts/hooks/claude-md-check.js\" \"standard,strict\""}]},
+      {"matcher": "Edit|Write", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:edit-write:claude-md-reminder\" \"scripts/hooks/claude-md-periodic-reminder.js\" \"standard,strict\""}]},
+      {"matcher": "Edit|Write", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:edit-write:security-check\" \"scripts/hooks/security-periodic-check.js\" \"standard,strict\""}]},
+      {"matcher": "Bash", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:bash:pr-created\" \"scripts/hooks/post-bash-pr-created.js\" \"standard,strict\""}]},
+      {"matcher": "Edit|Write|MultiEdit", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:quality-gate\" \"scripts/hooks/quality-gate.js\" \"standard,strict\"", "timeout": 30, "async": true}]},
+      {"matcher": "Edit", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:edit:format\" \"scripts/hooks/post-edit-format.js\" \"standard,strict\""}]},
+      {"matcher": "Edit", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:edit:typecheck\" \"scripts/hooks/post-edit-typecheck.js\" \"standard,strict\""}]},
+      {"matcher": "Edit", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:edit:console-warn\" \"scripts/hooks/post-edit-console-warn.js\" \"standard,strict\""}]},
+      {"matcher": "Bash", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:bash:build-complete\" \"scripts/hooks/post-bash-build-complete.js\" \"standard,strict\""}]},
+      {"matcher": "Bash", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"post:bash:error-pattern-capture\" \"scripts/hooks/error-pattern-capture.js\" \"standard,strict\""}]}
+    ],
+    "UserPromptSubmit": [
+      {"matcher": "*", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"user:dev-workflow-init\" \"scripts/hooks/dev-workflow-init.js\" \"standard,strict\""}]}
+    ],
+    "Stop": [
+      {"matcher": "*", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"stop:check-console-log\" \"scripts/hooks/check-console-log.js\" \"standard,strict\""}]},
+      {"matcher": "*", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"stop:revise-claude-md\" \"scripts/hooks/stop-revise-claude-md.js\" \"standard,strict\""}]},
+      {"matcher": "*", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"stop:dev-completion-review\" \"scripts/hooks/stop-dev-completion-review.js\" \"standard,strict\""}]},
+      {"matcher": "*", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"stop:session-end\" \"scripts/hooks/session-end.js\" \"minimal,standard,strict\"", "timeout": 10, "async": true}]},
+      {"matcher": "*", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"stop:cost-tracker\" \"scripts/hooks/cost-tracker.js\" \"minimal,standard,strict\"", "timeout": 10, "async": true}]},
+      {"matcher": "*", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"stop:evaluate-session\" \"scripts/hooks/evaluate-session.js\" \"standard,strict\"", "timeout": 15, "async": true}]},
+      {"matcher": "*", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"stop:error-pattern-maintain\" \"scripts/hooks/error-pattern-maintain.js\" \"standard,strict\"", "timeout": 15, "async": true}]}
+    ],
+    "SessionStart": [
+      {"matcher": "*", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"session:start\" \"scripts/hooks/session-start.js\" \"minimal,standard,strict\""}]},
+      {"matcher": "*", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"session:env-doctor-quick\" \"scripts/hooks/env-doctor-quick.js\" \"minimal,standard,strict\""}]},
+      {"matcher": "*", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"session:error-pattern-inject\" \"scripts/hooks/error-pattern-inject.js\" \"minimal,standard,strict\""}]}
+    ],
+    "SessionEnd": [
+      {"matcher": "*", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"session:end:marker\" \"scripts/hooks/session-end-marker.js\" \"minimal,standard,strict\""}]}
+    ],
+    "PreCompact": [
+      {"matcher": "*", "hooks": [{"type": "command", "command": "node \"C:\\Users\\nagii\\.claude/scripts/hooks/run-with-flags.js\" \"pre:compact\" \"scripts/hooks/pre-compact.js\" \"standard,strict\""}]}
+    ]
+  }
+}

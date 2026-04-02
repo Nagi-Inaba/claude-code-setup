@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(git clone:*)",
+      "Bash(cp -r /tmp/anthropic-skills/skills/claude-api/* ~/.claude/skills/claude-api/ && echo \"Done\")",
+      "Bash(cp -r /tmp/anthropic-skills/skills/claude-api/ ~/.claude/skills/claude-api/ && echo \"Done\")",
+      "Bash(mkdir -p \"C:/Users/nagii/OneDrive/claudecodeskills\" && cp -r ~/.claude/skills/* \"C:/Users/nagii/OneDrive/claudecodeskills/\" && echo \"Done\")",
+      "Bash(winget install:*)",
+      "Bash(curl -sL https://github.com/cli/cli/releases/download/v2.88.1/gh_2.88.1_windows_amd64.zip -o /tmp/gh.zip)",
+      "Bash(unzip -o /tmp/gh.zip -d /tmp/gh)",
+      "Read(//tmp/**)",
+      "Bash(mkdir -p ~/bin && cp /tmp/gh/bin/gh.exe ~/bin/ && export PATH=\"$HOME/bin:$PATH\" && gh --version)",
+      "Bash(export PATH=\"$HOME/bin:$PATH\" && gh auth status 2>&1)",
+      "Bash(export PATH=\"$HOME/bin:$PATH\" && gh auth login --web -p https 2>&1)",
+      "Bash(export PATH=\"$HOME/bin:$PATH\" && gh repo list Nagi-Inaba --limit 30 2>&1)",
+      "Bash(export PATH=\"$HOME/bin:$PATH\" && gh repo clone Nagi-Inaba/claude-code-setup /tmp/claude-code-setup 2>&1)",
+      "Bash(cd /tmp/claude-code-setup && bash install.sh --backup 2>&1)",
+      "Bash(export PATH=\"$HOME/bin:$PATH\" && gh repo list Nagi-Inaba --limit 50 2>&1 | grep -i secur)",
+      "Bash(export PATH=\"$HOME/bin:$PATH\" && gh org list 2>&1)",
+      "Bash(export PATH=\"$HOME/bin:$PATH\" && gh api user/starred --paginate --jq '.[].full_name' 2>&1 | grep -i secur)",
+      "Bash(export PATH=\"$HOME/bin:$PATH\" && gh search repos \"security claude-code\" --owner=Nagi-Inaba --json fullName 2>&1; gh search repos \"security claude\" --json fullName --limit 10 2>&1)",
+      "Bash(export PATH=\"$HOME/bin:$PATH\" && gh repo list Nagi-Inaba --limit 50 --json name,description 2>&1)",
+      "Bash(export PATH=\"$HOME/bin:$PATH\" && gh api user/repos --paginate --jq '.[] | select\\(.owner.login != \"Nagi-Inaba\"\\) | \"\\\\\\(.full_name\\) - \\\\\\(.description\\)\"' 2>&1)",
+      "Bash(export PATH=\"$HOME/bin:$PATH\" && gh api user/repos --paginate --jq '.[] | select\\(.owner.login != \"Nagi-Inaba\"\\) | .full_name + \" - \" + \\(.description // \"no description\"\\)' 2>&1)",
+      "Bash(export PATH=\"$HOME/bin:$PATH\" && gh api \"/user/repos?affiliation=collaborator&per_page=100\" 2>&1 | python3 -c \"import sys,json; [print\\(r['full_name'], '-', r.get\\('description',''\\)\\) for r in json.loads\\(sys.stdin.read\\(\\)\\)]\" 2>&1 || gh api \"/user/repos?affiliation=collaborator&per_page=100\" --jq \".[].full_name\" 2>&1)",
+      "Bash(export PATH=\"$HOME/bin:$PATH\" && gh repo clone Nagi-ip/claude-security-module /tmp/claude-security-module 2>&1)",
+      "Bash(cd /tmp/claude-security-module && python -X utf8 install.py 2>&1)",
+      "Skill(revise-claude-md)",
+      "Bash(node -e \"const { runFullChecks, formatReport } = require\\('C:/Users/nagii/.claude/scripts/lib/env-doctor-checks.js'\\); console.log\\(formatReport\\(runFullChecks\\(\\)\\)\\);\" 2>&1)",
+      "Bash(node -e \"const { generateBaseline } = require\\('C:/Users/nagii/.claude/scripts/lib/env-doctor-checks.js'\\); generateBaseline\\(\\);\" 2>&1)",
+      "Bash(node -e \"\nconst { generateBaseline } = require\\('C:/Users/nagii/.claude/scripts/lib/env-doctor-checks.js'\\);\nconst fs = require\\('fs'\\);\nconst path = require\\('path'\\);\nconst baseline = generateBaseline\\(\\);\nconst dest = path.join\\(process.env.USERPROFILE, '.claude', 'config', 'env-doctor-baseline.json'\\);\nfs.writeFileSync\\(dest, JSON.stringify\\(baseline, null, 2\\)\\);\nconsole.log\\('Saved:', dest\\);\nconsole.log\\(JSON.stringify\\(baseline, null, 2\\)\\);\n\" 2>&1)"
+    ]
+  }
+}
